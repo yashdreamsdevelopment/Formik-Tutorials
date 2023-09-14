@@ -8,7 +8,10 @@ const BasicForm = () => {
     email: "",
     channel: "",
   };
-  const onSubmit = (values) => console.log(values);
+  const onSubmit = (values) => {
+    alert(JSON.stringify(values, undefined, 2));
+    formik.resetForm();
+  };
 
   const validate = (values) => {
     // values.name values.email values.channel
