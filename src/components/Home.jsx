@@ -13,6 +13,9 @@ const Home = () => {
         <Link to={"/yup-validation"} className="button">
           With Yup
         </Link>
+        <Link to={"/advanced"} className="button">
+          Advanced
+        </Link>
       </div>
     </div>
   );

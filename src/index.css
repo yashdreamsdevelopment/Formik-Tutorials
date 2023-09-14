@@ -71,7 +71,8 @@ h1 {
 /*  */
 .form {
   border: 1px solid #646cff;
-  min-width: 500px;
+  width: 500px;
+  margin: auto;
   padding: 2rem;
   border-radius: 0.5rem;
   margin-top: 1rem;
