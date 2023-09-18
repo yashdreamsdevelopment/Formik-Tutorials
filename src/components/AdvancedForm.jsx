@@ -1,6 +1,13 @@
 import React from "react";
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+  FieldArray,
+  FastField,
+} from "formik";
 import { Link } from "react-router-dom";
 import FormFieldError from "./FormFieldError";
 
@@ -15,6 +22,8 @@ const AdvancedForm = () => {
       facebook: "",
       twitter: "",
     },
+    phoneNumber: ["", ""],
+    phNumbers: [""],
   };
 
   const onSubmit = (values) => {
@@ -33,6 +42,24 @@ const AdvancedForm = () => {
       facebook: Yup.string().required("Facebook is required"),
       twitter: Yup.string().required("Twitter is required"),
     }),
+    phoneNumber: Yup.array()
+      .of(
+        Yup.string().matches(
+          /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+          { message: "Not a valid phone no." }
+        )
+      )
+      .required("Phone no. is required")
+      .min(1, "At least one contact is required"),
+    phNumber: Yup.array()
+      .of(
+        Yup.string().matches(
+          /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+          { message: "Not a valid phone no." }
+        )
+      )
+      .required("Contact no. is required")
+      .min(1, "At least one contact field is required"),
   });
 
   return (
@@ -55,6 +82,7 @@ const AdvancedForm = () => {
                 type="text"
                 id="name"
                 name="name"
+                placeholder="Enter your name"
                 className="input-field"
               />
             </div>
@@ -69,6 +97,7 @@ const AdvancedForm = () => {
                 type="email"
                 id="email"
                 name="email"
+                placeholder="Enter your email"
                 className="input-field"
               />
             </div>
@@ -85,6 +114,7 @@ const AdvancedForm = () => {
                 type="channel"
                 id="channel"
                 name="channel"
+                placeholder="Enter your Fav. YT channel"
                 className="input-field"
               />
             </div>
@@ -102,6 +132,7 @@ const AdvancedForm = () => {
                 as="textarea"
                 id="comments"
                 name="comments"
+                placeholder="Any comments"
                 className="input-field"
               />
             </div>
@@ -142,10 +173,11 @@ const AdvancedForm = () => {
               <label htmlFor="address" className="input-label">
                 Address
               </label>
-              <Field
+              <FastField
                 type="text"
                 className="input-field"
                 name="address"
+                placeholder="Enter your address"
                 id="address"
               />
             </div>
@@ -161,6 +193,7 @@ const AdvancedForm = () => {
                 type="text"
                 id="facebook"
                 name="social.facebook"
+                placeholder="Facebook username"
                 className="input-field"
               />
             </div>
@@ -178,11 +211,94 @@ const AdvancedForm = () => {
                 type="text"
                 id="twitter"
                 name="social.twitter"
+                placeholder="Twitter username"
                 className="input-field"
               />
             </div>
 
             <ErrorMessage name="social.twitter" component={FormFieldError} />
+          </div>
+
+          <div>
+            <div className="input-group">
+              <label htmlFor="primaryPh" className="input-label">
+                Phone Number
+              </label>
+              <Field
+                type="text"
+                id="primaryPh"
+                placeholder="Enter your primary phone no."
+                name="phoneNumber[0]"
+                className="input-field"
+              />
+            </div>
+            <ErrorMessage name="phoneNumber[0]" component={FormFieldError} />
+          </div>
+
+          <div>
+            <div className="input-group">
+              <label htmlFor="secondaryPh" className="input-label">
+                Alt. Phone Number
+              </label>
+              <Field
+                type="text"
+                id="secondayPh"
+                name="phoneNumber[1]"
+                className="input-field"
+                placeholder="Alternate phone no."
+              />
+            </div>
+            <ErrorMessage name="phoneNumber[1]" component={FormFieldError} />
+          </div>
+
+          <div>
+            <div className="input-group">
+              <label htmlFor="" className="input-label">
+                List of phone numbers
+              </label>
+              <FieldArray name="phNumbers">
+                {(fieldArrayProps) => {
+                  const { push, remove, form } = fieldArrayProps;
+                  const { values } = form;
+                  const { phNumbers } = values;
+                  return (
+                    <div>
+                      {phNumbers.map((phNumber, index) => (
+                        <div key={index}>
+                          <div key={index}>
+                            <Field
+                              name={`phNumber[${index}]`}
+                              id={`phNumber[${index}]`}
+                              className="input-field"
+                              placeholder={`Enter your contact ${index + 1}`}
+                            />
+                            <button
+                              type="button"
+                              className="button"
+                              disabled={index === 0}
+                              onClick={() => remove(index)}
+                            >
+                              -
+                            </button>
+                            <button
+                              type="button"
+                              className="button"
+                              onClick={() => push("")}
+                            >
+                              +
+                            </button>
+                          </div>
+                          <ErrorMessage
+                            name={`phNumber`}
+                            component={FormFieldError}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }}
+              </FieldArray>
+            </div>
           </div>
 
           <button type="submit" className="button">
