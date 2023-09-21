@@ -35,7 +35,9 @@ h1 {
   font-size: 3.2em;
   line-height: 1;
 }
-
+button:disabled {
+  cursor: not-allowed;
+}
 .button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -84,9 +86,10 @@ h1 {
 
 .input-group {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .input-label {
@@ -101,11 +104,12 @@ h1 {
   padding: 0.5rem;
   font-size: 18px;
   font-weight: light;
-  flex: 0 0 350px;
+  width: 65%;
+  /* flex: 0 0 350px; */
 }
 .input-error {
   color: red;
   text-align: right;
-  font-weight: 300;
+  font-weight: 100;
   padding: 0.2rem 0;
 }

@@ -16,6 +16,9 @@ const Home = () => {
         <Link to={"/advanced"} className="button">
           Advanced
         </Link>
+        <Link to={"/fastfield"} className="button">
+          FastField
+        </Link>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import BasicForm from "./components/BasicForm";
 import Home from "./components/Home";
 import YupControlled from "./components/YupControlled";
 import AdvancedForm from "./components/AdvancedForm";
+import FastFieldForm from "./components/FastFieldForm";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/basic" element={<BasicForm />} />
         <Route path="/yup-validation" element={<YupControlled />} />
         <Route path="/advanced" element={<AdvancedForm />} />
+        <Route path="/fastfield" element={<FastFieldForm />} />
       </Routes>
     </BrowserRouter>
   );
